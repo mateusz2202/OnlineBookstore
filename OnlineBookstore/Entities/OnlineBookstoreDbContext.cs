@@ -35,12 +35,15 @@ namespace OnlineBookstore.Entities
             modelBuilder.Entity<AuthorBook>()
              .HasKey(a => new { a.AuthorID, a.BookId });
 
-            modelBuilder.Entity<Order>()
-                .HasOne(a => a.ShoppingBasket)
-                .WithOne(a => a.Order)
-                .HasForeignKey<ShoppingBasket>(a => a.Id);         
+            modelBuilder.Entity<ShoppingBasket>()
+                .HasOne(a => a.Order)
+                .WithOne(a => a.ShoppingBasket)
+                .HasForeignKey<Order>(a => a.Id)
+                .OnDelete(DeleteBehavior.Restrict);
+                
            
-
+           
+           
         }
 
     }

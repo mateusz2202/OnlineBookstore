@@ -29,6 +29,7 @@ namespace OnlineBookstore.Entities
         public int RoleId { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<ShoppingBasket> ShoppingBaskets { get; set; }
        
     }
 }

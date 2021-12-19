@@ -12,7 +12,7 @@ using OnlineBookstore.Entities;
 namespace OnlineBookstore.Migrations
 {
     [DbContext(typeof(OnlineBookstoreDbContext))]
-    [Migration("20211218002442_Initial")]
+    [Migration("20211219151014_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,6 +185,10 @@ namespace OnlineBookstore.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
@@ -250,10 +254,7 @@ namespace OnlineBookstore.Migrations
             modelBuilder.Entity("OnlineBookstore.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -344,9 +345,17 @@ namespace OnlineBookstore.Migrations
             modelBuilder.Entity("OnlineBookstore.Entities.ShoppingBasket", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("ShoppingBaskets");
                 });
@@ -474,6 +483,12 @@ namespace OnlineBookstore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OnlineBookstore.Entities.ShoppingBasket", "ShoppingBasket")
+                        .WithOne("Order")
+                        .HasForeignKey("OnlineBookstore.Entities.Order", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("OnlineBookstore.Entities.OrderStatus", "OrderStatus")
                         .WithMany()
                         .HasForeignKey("OrderStatusId")
@@ -483,17 +498,19 @@ namespace OnlineBookstore.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("OrderStatus");
+
+                    b.Navigation("ShoppingBasket");
                 });
 
             modelBuilder.Entity("OnlineBookstore.Entities.ShoppingBasket", b =>
                 {
-                    b.HasOne("OnlineBookstore.Entities.Order", "Order")
-                        .WithOne("ShoppingBasket")
-                        .HasForeignKey("OnlineBookstore.Entities.ShoppingBasket", "Id")
+                    b.HasOne("OnlineBookstore.Entities.Customer", "Customer")
+                        .WithMany("ShoppingBaskets")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("OnlineBookstore.Entities.Warehouse", b =>
@@ -527,12 +544,8 @@ namespace OnlineBookstore.Migrations
             modelBuilder.Entity("OnlineBookstore.Entities.Customer", b =>
                 {
                     b.Navigation("Orders");
-                });
 
-            modelBuilder.Entity("OnlineBookstore.Entities.Order", b =>
-                {
-                    b.Navigation("ShoppingBasket")
-                        .IsRequired();
+                    b.Navigation("ShoppingBaskets");
                 });
 
             modelBuilder.Entity("OnlineBookstore.Entities.Publisher", b =>
@@ -543,6 +556,8 @@ namespace OnlineBookstore.Migrations
             modelBuilder.Entity("OnlineBookstore.Entities.ShoppingBasket", b =>
                 {
                     b.Navigation("InstanceBooks");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("OnlineBookstore.Entities.Warehouse", b =>

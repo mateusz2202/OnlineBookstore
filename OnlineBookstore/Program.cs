@@ -5,10 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(); 
 builder.Services.AddDbContext<OnlineBookstoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineBookstoretDbConnection")));
 builder.Services.AddTransient<OnlineBookstoreDBInitializer>();
-builder.Services.BuildServiceProvider().CreateScope().ServiceProvider.GetService<OnlineBookstoreDBInitializer>().Seed();
+//builder.Services.BuildServiceProvider().CreateScope().ServiceProvider.GetService<OnlineBookstoreDBInitializer>().Seed();
 
 
 

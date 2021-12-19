@@ -184,6 +184,7 @@ namespace OnlineBookstore.Migrations
                     FisrtName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Nationality = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -208,46 +209,20 @@ namespace OnlineBookstore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateFinish = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OrderStatusId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_OrderStatuses_OrderStatusId",
-                        column: x => x.OrderStatusId,
-                        principalTable: "OrderStatuses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ShoppingBaskets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoppingBaskets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShoppingBaskets_Orders_Id",
-                        column: x => x.Id,
-                        principalTable: "Orders",
+                        name: "FK_ShoppingBaskets_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -294,6 +269,39 @@ namespace OnlineBookstore.Migrations
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateFinish = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OrderStatusId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_OrderStatuses_OrderStatusId",
+                        column: x => x.OrderStatusId,
+                        principalTable: "OrderStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_ShoppingBaskets_Id",
+                        column: x => x.Id,
+                        principalTable: "ShoppingBaskets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -347,6 +355,11 @@ namespace OnlineBookstore.Migrations
                 column: "OrderStatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShoppingBaskets_CustomerId",
+                table: "ShoppingBaskets",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Warehouses_AddressId",
                 table: "Warehouses",
                 column: "AddressId");
@@ -364,6 +377,9 @@ namespace OnlineBookstore.Migrations
                 name: "InstanceBooks");
 
             migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
@@ -376,19 +392,16 @@ namespace OnlineBookstore.Migrations
                 name: "Publishers");
 
             migrationBuilder.DropTable(
-                name: "ShoppingBaskets");
-
-            migrationBuilder.DropTable(
                 name: "Warehouses");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "OrderStatuses");
+
+            migrationBuilder.DropTable(
+                name: "ShoppingBaskets");
 
             migrationBuilder.DropTable(
                 name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "OrderStatuses");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
