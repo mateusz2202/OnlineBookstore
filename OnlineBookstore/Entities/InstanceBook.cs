@@ -22,8 +22,8 @@ namespace OnlineBookstore.Entities
         public int BookId { get; set; }
         public virtual Warehouse Warehouse{ get; set; }
         public int WarehouseId { get; set; }
-        public virtual ShoppingBasket ShoppingBasket { get; set; }
-        public int ShoppingBasketId { get; set;}
+        public virtual ShoppingBasket? ShoppingBasket { get; set; }
+        public int? ShoppingBasketId { get; set;}
       
 
 

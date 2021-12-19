@@ -235,12 +235,12 @@ namespace OnlineBookstore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ISBN = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", maxLength: 150, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(19,2)", precision: 19, scale: 2, nullable: false),
                     CoverUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublisherId = table.Column<int>(type: "int", nullable: false),
                     BookId = table.Column<int>(type: "int", nullable: false),
                     WarehouseId = table.Column<int>(type: "int", nullable: false),
-                    ShoppingBasketId = table.Column<int>(type: "int", nullable: false)
+                    ShoppingBasketId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,8 +261,7 @@ namespace OnlineBookstore.Migrations
                         name: "FK_InstanceBooks_ShoppingBaskets_ShoppingBasketId",
                         column: x => x.ShoppingBasketId,
                         principalTable: "ShoppingBaskets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_InstanceBooks_Warehouses_WarehouseId",
                         column: x => x.WarehouseId,

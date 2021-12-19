@@ -12,7 +12,7 @@ using OnlineBookstore.Entities;
 namespace OnlineBookstore.Migrations
 {
     [DbContext(typeof(OnlineBookstoreDbContext))]
-    [Migration("20211219151014_Initial")]
+    [Migration("20211219164419_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,8 +222,8 @@ namespace OnlineBookstore.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(19, 4)
-                        .HasColumnType("decimal(19,4)");
+                        .HasPrecision(19, 2)
+                        .HasColumnType("decimal(19,2)");
 
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
@@ -232,7 +232,7 @@ namespace OnlineBookstore.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ShoppingBasketId")
+                    b.Property<int?>("ShoppingBasketId")
                         .HasColumnType("int");
 
                     b.Property<int>("WarehouseId")
@@ -456,9 +456,7 @@ namespace OnlineBookstore.Migrations
 
                     b.HasOne("OnlineBookstore.Entities.ShoppingBasket", "ShoppingBasket")
                         .WithMany("InstanceBooks")
-                        .HasForeignKey("ShoppingBasketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShoppingBasketId");
 
                     b.HasOne("OnlineBookstore.Entities.Warehouse", "Warehouse")
                         .WithMany("InstanceBooks")

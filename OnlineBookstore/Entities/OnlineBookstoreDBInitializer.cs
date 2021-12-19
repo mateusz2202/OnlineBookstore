@@ -71,21 +71,21 @@ namespace OnlineBookstore.Entities
                     _dbContext.Publishers.AddRange(GetPublishers());
                     _dbContext.SaveChanges();
                 }
+                if (!_dbContext.InstanceBooks.Any())
+                {
+                    _dbContext.InstanceBooks.AddRange(GetInstanceBooks());
+                    _dbContext.SaveChanges();
+                }
                 if (!_dbContext.ShoppingBaskets.Any())
                 {
                     _dbContext.ShoppingBaskets.AddRange(GetShoppingBaskets());
                     _dbContext.SaveChanges();
                 }
-                //if (!_dbContext.InstanceBooks.Any())
-                //{
-                //    _dbContext.InstanceBooks.AddRange(GetInstanceBooks());
-                //    _dbContext.SaveChanges();
-                //}
-                //if (!_dbContext.Orders.Any())
-                //{
-                //    _dbContext.Orders.AddRange(GetOrders());
-                //    _dbContext.SaveChanges();
-                //}
+                if (!_dbContext.Orders.Any())
+                {
+                    _dbContext.Orders.AddRange(GetOrders());
+                    _dbContext.SaveChanges();
+                }
 
             }
         }
@@ -249,10 +249,10 @@ namespace OnlineBookstore.Entities
                 new BookCategory(){BookId=5,CategoryId=6},
                 new BookCategory(){BookId=5,CategoryId=2},
                 new BookCategory(){BookId=5,CategoryId=1},
-                new BookCategory(){BookId=5,CategoryId=3}            
+                new BookCategory(){BookId=5,CategoryId=3}
             };
-           
-        }       
+
+        }
 
         private ICollection<Author> GetAuthors()
         {
@@ -307,7 +307,7 @@ namespace OnlineBookstore.Entities
                 new AuthorBook(){AuthorID=1,BookId=4},
                 new AuthorBook(){AuthorID=1,BookId=5},
                 new AuthorBook(){AuthorID=3,BookId=5},
-                new AuthorBook(){AuthorID=4,BookId=5}            
+                new AuthorBook(){AuthorID=4,BookId=5}
             };
         }
 
@@ -404,13 +404,58 @@ namespace OnlineBookstore.Entities
         {
             return new List<ShoppingBasket>()
             {
-                new ShoppingBasket(){},
-                new ShoppingBasket(){},
-                new ShoppingBasket(){},
-                new ShoppingBasket(){},
-                new ShoppingBasket(){},
-                new ShoppingBasket(){},
-                new ShoppingBasket(){}                
+                new ShoppingBasket(){
+                    InstanceBooks=new List<InstanceBook>()
+                    {
+                        new InstanceBook()
+                        {
+                             ISBN= Guid.NewGuid().ToString(),
+                             ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
+                             Price=(decimal)Random.Shared.NextDouble()*100,
+                             CoverUrl="",
+                             BookId=1,
+                             WarehouseId=1,
+                             PublisherId=1
+                        },
+                        new InstanceBook()
+                        {
+                             ISBN=Guid.NewGuid().ToString(),
+                             ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
+                             Price=(decimal)Random.Shared.NextDouble()*100,
+                             CoverUrl="",
+                             BookId=2,
+                             WarehouseId=2,
+                             PublisherId=2
+                        }
+                    },
+                    CustomerId=2,                    
+                },
+                 new ShoppingBasket(){
+                    InstanceBooks=new List<InstanceBook>()
+                    {
+                        new InstanceBook()
+                        {
+                             ISBN=Guid.NewGuid().ToString(),
+                             ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
+                             Price=(decimal)Random.Shared.NextDouble()*100,
+                             CoverUrl="",
+                             BookId=2,
+                             WarehouseId=2,
+                             PublisherId=1
+                        },
+                        new InstanceBook()
+                        {
+                             ISBN=Guid.NewGuid().ToString(),
+                             ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
+                             Price=(decimal)Random.Shared.NextDouble()*100,
+                             CoverUrl="",
+                             BookId=3,
+                             WarehouseId=1,
+                             PublisherId=2
+                        }
+                    },
+                    CustomerId=3,
+                },
             };
         }
 
@@ -420,181 +465,110 @@ namespace OnlineBookstore.Entities
             {
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=1,
                     WarehouseId=1,
-                    PublisherId=1
+                    PublisherId=1,
+                    ShoppingBasket=null
                 },
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=1,
                     WarehouseId=1,
-                    PublisherId=2
+                    PublisherId=2,
+                    ShoppingBasket=null
                 },
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=1,
                     WarehouseId=2,
-                    PublisherId=1
+                    PublisherId=1,
+                    ShoppingBasket=null
                 },
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=2,
                     WarehouseId=3,
-                    PublisherId=3
+                    PublisherId=3,
+                    ShoppingBasket=null
                 },
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=2,
                     WarehouseId=3,
-                    PublisherId=1
+                    PublisherId=1,
+                    ShoppingBasket=null
                 },
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=2,
                     WarehouseId=3,
-                    PublisherId=2
+                    PublisherId=2,
+                    ShoppingBasket=null
                 },
                 new InstanceBook()
                 {
-                    ISBN=new Guid().ToString(),
+                    ISBN=Guid.NewGuid().ToString(),
                     ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(400,4000)),
                     Price=(decimal)Random.Shared.NextDouble()*10,
                     CoverUrl="",
                     BookId=4,
                     WarehouseId=1,
-                    PublisherId=1
+                    PublisherId=1,
+                    ShoppingBasket=null
                 }
             };
         }
 
-        //private ICollection<Order> GetOrders()
-        //{
-        //    return new List<Order>()
-        //    {
-        //        new Order()
-        //        {
-        //            Id = 1,
-        //            DateOrder=DateTime.Now.AddDays(-Random.Shared.Next(5,20)),
-        //            DateFinish=null,
-        //            OrderStatusId=1,
-        //            Customer=new Customer()
-        //            {
-        //                FisrtName="Jan",
-        //                LastName="Kowalski",
-        //                Email="jan@example.com",
-        //                Nationality="Polska",
-        //                Phone="555333777",
-        //                DateOfBirth=DateTime.Now.AddYears(-Random.Shared.Next(20,50)).AddDays(Random.Shared.Next(10,340)),
-        //                RoleId=2,
-        //                PasswordHash="1234",
-        //                Address=new Address()
-        //                {
-        //                    City="Rzeszów",
-        //                    Street="L.Siemańskiego",
-        //                    AddressLine="1/21",
-        //                    PostalCode="34-309"
-        //                }
-        //            },
-        //            ShoppingBasket=new ShoppingBasket()
-        //            {
-        //                InstanceBooks=new List<InstanceBook>()
-        //                {
-        //                   new InstanceBook()
-        //                   {
-        //                       ISBN=new Guid().ToString(),
-        //                       ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(10,4000)),
-        //                       Price=(decimal)Random.Shared.NextDouble()*10,
-        //                       CoverUrl="",
-        //                       BookId=1,
-        //                       WarehouseId=1,
-        //                       Publisher=new Publisher()
-        //                       {
-        //                           Name="AgentReklama",
-        //                           Email="agent@example.com",
-        //                           Phone="555222111",
-        //                           Url=""
-        //                       }
-        //                   }
-        //                }
-        //            }
-                    
-
-        //        },
-        //         new Order()
-        //        {
-        //            Id = 1,
-        //            DateOrder=DateTime.Now.AddDays(-Random.Shared.Next(5,20)),
-        //            DateFinish=null,
-        //            OrderStatusId=1,
-        //            Customer=new Customer()
-        //            {
-        //                FisrtName="Adrian",
-        //                LastName="Dratkowski",
-        //                Email="adi@example.com",
-        //                Nationality="Polska",
-        //                Phone="555333778",
-        //                DateOfBirth=DateTime.Now.AddYears(-Random.Shared.Next(20,50)).AddDays(Random.Shared.Next(10,340)),
-        //                RoleId=2,
-        //                PasswordHash="1234",
-        //                Address=new Address()
-        //                {
-        //                    City="Rzeszów",
-        //                    Street="L.Siemańskiego",
-        //                    AddressLine="1/21",
-        //                    PostalCode="34-309"
-        //                }
-        //            },
-        //            ShoppingBasket=new ShoppingBasket()
-        //            {
-        //                InstanceBooks=new List<InstanceBook>()
-        //                {
-        //                   new InstanceBook()
-        //                   {
-        //                       ISBN=new Guid().ToString(),
-        //                       ReleaseDate=DateTime.Now.AddDays(-Random.Shared.Next(10,4000)),
-        //                       Price=(decimal)Random.Shared.NextDouble()*10,
-        //                       CoverUrl="",
-        //                       BookId=1,
-        //                       WarehouseId=1,
-        //                       Publisher=new Publisher()
-        //                       {
-        //                           Name="AgentTran",
-        //                           Email="agentT@example.com",
-        //                           Phone="555225111",
-        //                           Url=""
-        //                       }
-        //                   }
-        //                }
-        //            }
+        private ICollection<Order> GetOrders()
+        {
+            return new List<Order>()
+            {
+                
+                new Order()
+                {                   
+                    CustomerId=2,
+                    OrderStatusId=1,
+                    DateOrder=DateTime.Now.AddDays(-Random.Shared.Next(5,15)),
+                    DateFinish=null,
+                    ShoppingBasket=_dbContext.ShoppingBaskets.Where(a=>a.Id==3).First()
+                },
+                  new Order()
+                {
+                    CustomerId=3,
+                    OrderStatusId=1,
+                    DateOrder=DateTime.Now.AddDays(-Random.Shared.Next(5,15)),
+                    DateFinish=null,
+                    ShoppingBasket=_dbContext.ShoppingBaskets.Where(a=>a.Id==4).First()
+                },
 
 
-        //        }
-        //    };
-        //}
+
+            };
+        }
 
     }
 }

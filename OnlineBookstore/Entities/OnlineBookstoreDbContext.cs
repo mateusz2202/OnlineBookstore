@@ -28,7 +28,7 @@ namespace OnlineBookstore.Entities
 
             modelBuilder.Entity<InstanceBook>()
                 .Property(a => a.Price)
-                .HasPrecision(19, 4); 
+                .HasPrecision(19, 2); 
             
             modelBuilder.Entity<BookCategory>()
                 .HasKey(a => new {a.BookId,a.CategoryId});
