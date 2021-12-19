@@ -21,7 +21,7 @@ namespace OnlineBookstore.Entities
         public DbSet<AuthorBook> AuthorBooks { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
         public DbSet<InstanceBook> InstanceBooks { get; set; }
-
+        public object Users { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

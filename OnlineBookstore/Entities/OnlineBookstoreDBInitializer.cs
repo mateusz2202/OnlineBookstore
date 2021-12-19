@@ -554,7 +554,7 @@ namespace OnlineBookstore.Entities
                     OrderStatusId=1,
                     DateOrder=DateTime.Now.AddDays(-Random.Shared.Next(5,15)),
                     DateFinish=null,
-                    ShoppingBasket=_dbContext.ShoppingBaskets.Where(a=>a.Id==3).First()
+                    ShoppingBasket=_dbContext.ShoppingBaskets.Where(a=>a.Id==1).First()
                 },
                   new Order()
                 {
@@ -562,7 +562,7 @@ namespace OnlineBookstore.Entities
                     OrderStatusId=1,
                     DateOrder=DateTime.Now.AddDays(-Random.Shared.Next(5,15)),
                     DateFinish=null,
-                    ShoppingBasket=_dbContext.ShoppingBaskets.Where(a=>a.Id==4).First()
+                    ShoppingBasket=_dbContext.ShoppingBaskets.Where(a=>a.Id==2).First()
                 },
 
 

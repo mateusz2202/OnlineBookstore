@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineBookstore.Entities
+namespace OnlineBookstore.Models
 {
-    public class Customer
+    public class RegisterCustomerDTO
     {
-        public int Id { get; set; }
         [Required]
         [MaxLength(30)]
         public string FisrtName { get; set; }
@@ -17,19 +16,16 @@ namespace OnlineBookstore.Entities
         [Required]
         [Phone]
         public string Phone { get; set; }
-        [Required]     
+        [Required]
         public DateTime DateOfBirth { get; set; }
         public string? Nationality { get; set; }
-        public string PasswordHash { get; set; }
-
-        public virtual Address? Address { get; set; }
-        public int? AddressId { get; set; }
-
-        public virtual Role Role { get; set; }
+        [Required]
+        [MinLength(4)]        
+        public string Password{ get; set; }        
+        [Compare("Password")]
+        public string ConfirmPassword{ get; set; }
+        [Required]
         public int RoleId { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<ShoppingBasket> ShoppingBaskets { get; set; }
-       
     }
 }

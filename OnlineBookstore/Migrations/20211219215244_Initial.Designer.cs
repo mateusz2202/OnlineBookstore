@@ -12,8 +12,8 @@ using OnlineBookstore.Entities;
 namespace OnlineBookstore.Migrations
 {
     [DbContext(typeof(OnlineBookstoreDbContext))]
-    [Migration("20211219182251_addFields")]
-    partial class addFields
+    [Migration("20211219215244_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,7 +159,7 @@ namespace OnlineBookstore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -183,6 +183,7 @@ namespace OnlineBookstore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -425,9 +426,7 @@ namespace OnlineBookstore.Migrations
                 {
                     b.HasOne("OnlineBookstore.Entities.Address", "Address")
                         .WithMany("Customers")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("OnlineBookstore.Entities.Role", "Role")
                         .WithMany()
