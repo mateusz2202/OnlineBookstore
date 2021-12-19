@@ -17,5 +17,8 @@ namespace OnlineBookstore.Entities
         [Required]
         [MaxLength(15)]
         public string PostalCode  { get; set; }
+
+        public virtual ICollection<Customer> Customers{ get; set;}
+        public virtual ICollection<Warehouse> Warehouses{ get; set;}
     }
 }
