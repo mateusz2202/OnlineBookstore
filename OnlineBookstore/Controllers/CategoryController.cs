@@ -23,6 +23,12 @@ namespace OnlineBookstore.Controllers
             var result=_categoryService.GetAll();
             return Ok(result);
         }
+        [HttpGet("{id}")]
+        public ActionResult<CategoryDTO> GetById([FromRoute]int id)
+        {
+            var result = _categoryService.GetById(id);
+            return Ok(result);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public ActionResult Create([FromBody] CreateCategoryDTO dto)

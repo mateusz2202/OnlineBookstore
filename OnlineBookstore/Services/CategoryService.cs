@@ -41,6 +41,14 @@ namespace OnlineBookstore.Services
             return categoriesDTO;
         }
 
+        public CategoryDTO GetById(int id)
+        {
+            var category = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
+            if (category == null) throw new NotFoundException("Category not found");
+            var categoryDTO=_mapper.Map<CategoryDTO>(category);
+            return categoryDTO;
+        }
+
         public void Update(int id, CreateCategoryDTO dto)
         {
             var category=_dbContext.Categories.FirstOrDefault(x=>x.Id == id);

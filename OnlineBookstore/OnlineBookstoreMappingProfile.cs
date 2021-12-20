@@ -22,6 +22,9 @@ namespace OnlineBookstore
             CreateMap<Category, CreateCategoryDTO>();
             CreateMap<CreateCategoryDTO, Category>();
             CreateMap<Category, CategoryDTO>();
+
+            CreateMap<Author,AuthorDTO>();
+            CreateMap<CreateAuthorDTO, Author>();
         }
     }
 }

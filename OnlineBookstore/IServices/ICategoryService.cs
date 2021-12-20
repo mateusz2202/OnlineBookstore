@@ -8,5 +8,6 @@ namespace OnlineBookstore.IServices
         void Create(CreateCategoryDTO dto);
         void Update(int id,CreateCategoryDTO dto);
         void Delete(int id);
+        CategoryDTO GetById(int id);
     }
 }

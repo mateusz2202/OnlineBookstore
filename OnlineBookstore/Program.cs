@@ -27,6 +27,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IShoppingBasketService, ShoppingBasketService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
@@ -54,6 +55,7 @@ builder.Services.AddScoped<IValidator<RegisterCustomerDTO>, RegisterCustomerDTOV
 builder.Services.AddScoped<IValidator<UpdateCustomerAboutDTO>, UpdateCustomerAboutDTOValidator>();
 builder.Services.AddScoped<IValidator<UpdateCustomerPasswordDTO>, UpdateCustomerPasswordDTOValidator>();
 builder.Services.AddScoped<IValidator<CreateCategoryDTO>, CreateCategoryDTOValidator>();
+builder.Services.AddScoped<IValidator<CreateAuthorDTO>, CreateAuthorDTOValidator>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
