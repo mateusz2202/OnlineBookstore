@@ -44,7 +44,7 @@ namespace OnlineBookstore.Controllers
             return Ok();
         }
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete([FromRoute] int id)
         {
             _categoryService.Delete(id);

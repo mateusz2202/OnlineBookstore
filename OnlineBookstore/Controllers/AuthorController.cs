@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookstore.IServices;
 using OnlineBookstore.Models;
@@ -7,6 +8,7 @@ namespace OnlineBookstore.Controllers
 {
     [Route("api/authors")]
     [ApiController]
+   
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
@@ -28,19 +30,23 @@ namespace OnlineBookstore.Controllers
             var result = _authorService.GetById(id);
             return Ok(result);
         }
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([FromBody] CreateAuthorDTO dto)
         {
             _authorService.Create(dto);
             return Ok();
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Update([FromRoute] int id,[FromBody] CreateAuthorDTO dto)
         {
             _authorService.Update(id, dto);
             return Ok();
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete([FromRoute]int id)
         {
             _authorService.Delete(id);
