@@ -1,9 +1,11 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineBookstore;
+using OnlineBookstore.Authorization;
 using OnlineBookstore.Entities;
 using OnlineBookstore.IServices;
 using OnlineBookstore.Middleware;
@@ -46,9 +48,13 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
-
 builder.Services.AddScoped<IValidator<RegisterCustomerDTO>, RegisterCustomerDTOValidator>();
+builder.Services.AddScoped<IValidator<UpdateCustomerAboutDTO>, UpdateCustomerAboutDTOValidator>();
+builder.Services.AddScoped<IValidator<UpdateCustomerPasswordDTO>, UpdateCustomerPasswordDTOValidator>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
 
 
 

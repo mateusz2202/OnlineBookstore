@@ -8,7 +8,7 @@ namespace OnlineBookstore.Models.Validators
         public RegisterCustomerDTOValidator(OnlineBookstoreDbContext dbContext)
         {
             RuleFor(x => x.Email).Custom((value, context) =>
-              {
+              {                  
                   var emailInUse = dbContext.Customers.Any(x => x.Email == value);
                   if (emailInUse)
                   {

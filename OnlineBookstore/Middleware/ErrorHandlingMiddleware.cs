@@ -17,6 +17,12 @@ namespace OnlineBookstore.Middleware
             {
                 await next.Invoke(context);
             }
+            catch (ForbidException e)
+            {
+                _logger.LogError(e, e.Message);
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync(e.Message);
+            }
             catch(NotFoundException e)
             {
                 _logger.LogInformation(e, e.Message);
