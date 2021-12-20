@@ -4,14 +4,13 @@ using System.Security.Claims;
 
 namespace OnlineBookstore.Authorization
 {
-
-    public class ResourceOperationRequirementHandler : AuthorizationHandler<ResourceOperationRequirement, Customer>
+    public class OrderOperationRequirmentHandler : AuthorizationHandler<OrderOperationRequirment, Order>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ResourceOperationRequirement requirement, Customer customer)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OrderOperationRequirment requirement, Order order)
         {
             var userId = context.User.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var role = context.User.FindFirst(x => x.Type == ClaimTypes.Role)?.Value;
-            if (customer.Id == int.Parse(userId)|| role=="Admin")
+            if (order.CustomerId == int.Parse(userId) || role == "Admin")
             {
                 context.Succeed(requirement);
             }

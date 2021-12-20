@@ -13,8 +13,15 @@ namespace OnlineBookstore
                 .ForMember(x => x.Street, c => c.MapFrom(a => a.Address.Street))
                 .ForMember(x => x.AddressLine, c => c.MapFrom(a => a.Address.AddressLine))
                 .ForMember(x => x.PostalCode, c => c.MapFrom(a => a.Address.PostalCode))
-                .ForMember(x => x.RoleName, c => c.MapFrom(a => a.Role.Name));           
-               
+                .ForMember(x => x.RoleName, c => c.MapFrom(a => a.Role.Name));
+
+            CreateMap<Order, OrderDTO>()
+                .ForMember(x => x.OrderStatus, c => c.MapFrom(a => a.OrderStatus.NameStatus))
+                .ForMember(x => x.OrderByCustomerId, c => c.MapFrom(a => a.CustomerId));
+
+            CreateMap<Category, CreateCategoryDTO>();
+            CreateMap<CreateCategoryDTO, Category>();
+            CreateMap<Category, CategoryDTO>();
         }
     }
 }
