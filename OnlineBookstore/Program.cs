@@ -65,9 +65,10 @@ builder.Services.AddScoped<IUserContextService, UserContextService>();
 
 
 
-//builder.Services.AddTransient<OnlineBookstoreDBInitializer>();
-//builder.Services.BuildServiceProvider().CreateScope().ServiceProvider.GetService<OnlineBookstoreDBInitializer>().Seed();
+builder.Services.AddTransient<OnlineBookstoreDBInitializer>();
+builder.Services.BuildServiceProvider().CreateScope().ServiceProvider.GetService<OnlineBookstoreDBInitializer>().Seed();
 
+builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
@@ -78,9 +79,15 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 
 app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI(cfg =>
+{
+    cfg.SwaggerEndpoint("/swagger/v1/swagger.json","OnlineBookstore API");
+});
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+public partial class Program { }
