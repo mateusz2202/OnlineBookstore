@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using OnlineBookstore.Entities;
+using OnlineBookstore.IntegrationTests.DataTest;
 using OnlineBookstore.IntegrationTests.Helpers;
 using OnlineBookstore.Models;
 using System;
@@ -32,27 +33,32 @@ namespace OnlineBookstore.IntegrationTests
             }).CreateClient();
         }
 
-        [Fact]
-        public async void RegisterCustomer_ForValidModel_ReturnsAccepted()
+        [Theory]
+        [ClassData(typeof(RegisterCustomerValidModelTestData))]
+        public async void RegisterCustomer_ForValidModel_ReturnsAccepted(RegisterCustomerDTO registerCustomerDTO)
         {
             //arrange
-            var registerCustomer = new RegisterCustomerDTO()
-            {
-                Email = "test@test.com",
-                Password = "123456",
-                ConfirmPassword = "123456",
-                RoleId = 1,
-                DateOfBirth = DateTime.Now,
-                Phone="88888888",
-                LastName="Stones",
-                FisrtName="John"
-            };
+            var registerCustomer = registerCustomerDTO;           
             var httpContent = registerCustomer.ToJsonHttpContent();
             //act
             var response = await _client.PostAsync("/api/customers/register", httpContent);
 
             //assert
             response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        }
+        [Theory]
+        [ClassData(typeof(RegisterCustomerInvalidModelTestData))]
+        public async void RegisterCustomer_ForInvalidModel_ReturnsReturnsBadRequest(RegisterCustomerDTO registerCustomerDTO)
+        {
+            //arrange
+            var registerCustomer = registerCustomerDTO;
+            var httpContent = registerCustomer.ToJsonHttpContent();
+            //act
+            var response = await _client.PostAsync("/api/customers/register", httpContent);
+
+            //assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         }
     }
